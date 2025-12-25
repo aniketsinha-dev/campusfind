@@ -1,6 +1,6 @@
-/* ------------------------------
-   GLOBAL RESET & BASE
---------------------------------*/
+/* ==============================
+   RESET & BASE
+================================*/
 * {
   box-sizing: border-box;
 }
@@ -8,220 +8,221 @@
 body {
   margin: 0;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(
-    circle at top,
-    #eef2ff 0%,
-    #f8fafc 40%,
-    #f1f5f9 100%
-  );
+  background: #f5f7fb;
   color: #0f172a;
 }
 
-/* ------------------------------
+/* ==============================
    APP CONTAINER
---------------------------------*/
+================================*/
 .app {
   max-width: 960px;
   margin: 0 auto;
-  padding: 48px 20px 80px;
+  padding: 22px 16px 56px;
 }
 
-/* ------------------------------
-   HERO HEADER
---------------------------------*/
+/* ==============================
+   HERO
+================================*/
 .hero {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 20px;
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
+  letter-spacing: -0.4px;
 }
 
 .subtitle {
-  font-size: 17px;
+  font-size: 13.5px;
   color: #64748b;
 }
 
-/* ------------------------------
-   CARD BASE STYLE
---------------------------------*/
+/* ==============================
+   CARD (PREMIUM BORDER)
+================================*/
 .card {
   position: relative;
   background: #ffffff;
-  border-radius: 20px;
-  padding: 28px;
-  margin-bottom: 32px;
-  box-shadow:
-    0 20px 40px rgba(15, 23, 42, 0.08),
-    0 4px 12px rgba(15, 23, 42, 0.04);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
-/* premium border (FIXED) */
+/* gradient border */
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 20px;
+  border-radius: 14px;
   padding: 1px;
   background: linear-gradient(135deg, #6366f1, #9333ea);
+  pointer-events: none;
+
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none; /* ✅ IMPORTANT FIX */
+          mask-composite: exclude;
 }
 
-/* ------------------------------
-   SECTION HEADINGS
---------------------------------*/
+/* ==============================
+   CARD HEADINGS
+================================*/
 .card h2 {
-  margin-top: 0;
-  margin-bottom: 18px;
-  font-size: 21px;
+  margin: 0 0 10px;
+  font-size: 17px;
   font-weight: 700;
 }
 
-/* ------------------------------
+/* ==============================
    FORM ELEMENTS
---------------------------------*/
+================================*/
 input,
 select {
   width: 100%;
-  padding: 13px 16px;
-  margin-bottom: 14px;
-  border-radius: 14px;
+  padding: 9px 12px;
+  margin-bottom: 8px;
+  border-radius: 10px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
-  background: #f8fafc;
-  outline: none;
-  transition: all 0.2s ease;
+  font-size: 13px;
+  background: #ffffff;
 }
 
 input:focus,
 select:focus {
   border-color: #6366f1;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
 }
 
-/* grouped fields */
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-  margin-bottom: 6px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
 }
 
-/* ------------------------------
+/* ==============================
+   IMAGE HINT (FADED)
+================================*/
+.image-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: -2px 0 8px;
+}
+
+/* ==============================
    BUTTONS
---------------------------------*/
+================================*/
 .btn {
   width: 100%;
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: #ffffff;
   border: none;
-  padding: 14px;
-  border-radius: 16px;
-  font-size: 15px;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action-area {
+  margin-top: 8px;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(79, 70, 229, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.35);
 }
 
-/* ------------------------------
-   ITEMS FEED
---------------------------------*/
+.btn:disabled {
+  background: #c7c9f5;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ==============================
+   ITEM CARD (SMART LAYOUT)
+================================*/
 .item-card {
   display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 22px;
-  padding: 22px;
-  border-radius: 20px;
+  grid-template-columns: 100px 1fr;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
   background: #ffffff;
-  margin-bottom: 20px;
-  box-shadow:
-    0 18px 36px rgba(15, 23, 42, 0.08),
-    0 4px 12px rgba(15, 23, 42, 0.05);
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* item image */
+/* ✅ NO IMAGE = FULL WIDTH CONTENT */
+.item-card:not(:has(img)) {
+  grid-template-columns: 1fr;
+}
+
+.item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.14);
+}
+
+/* image */
 .item-img {
   width: 100%;
-  height: 140px;
+  height: 86px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 
-/* ------------------------------
-   ITEM CONTENT STRUCTURE
---------------------------------*/
+/* ==============================
+   ITEM CONTENT
+================================*/
 .item-content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 3px;
 }
 
 .item-title {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
   margin: 0;
 }
 
-.item-meta {
-  font-size: 14px;
+.item-content p {
+  margin: 0;
+  font-size: 12.5px;
   color: #475569;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
-.badge {
-  background: #eef2ff;
-  color: #4338ca;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-.item-location,
-.item-owner {
-  font-size: 14px;
-  color: #334155;
-}
-
-/* ------------------------------
-   CONTACT BUTTONS (CLICKABLE)
---------------------------------*/
+/* ==============================
+   CONTACT ACTIONS
+================================*/
 .contact-actions {
-  margin-top: 10px;
+  margin-top: 6px;
   display: flex;
-  gap: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .contact-btn {
-  padding: 8px 16px;
+  padding: 5px 10px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  text-decoration: none;
+  border: none;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .contact-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .contact-btn.call {
@@ -234,50 +235,79 @@ select:focus {
   color: #5b21b6;
 }
 
-/* ------------------------------
-   MOBILE RESPONSIVE
---------------------------------*/
+/* ==============================
+   MARK AS RESOLVED (SUBTLE)
+================================*/
+.contact-btn.danger {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  font-size: 11.5px;
+  padding: 4px 10px;
+}
+
+.contact-btn.danger:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #94a3b8;
+}
+
+/* ==============================
+   SUCCESS STATE
+================================*/
+.success-box {
+  margin-top: 10px;
+}
+
+.success-text {
+  font-size: 13px;
+  color: #16a34a;
+  margin-bottom: 6px;
+}
+
+.post-another-btn {
+  background: transparent;
+  color: #4f46e5;
+  border: 1px dashed #c7d2fe;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.post-another-btn:hover {
+  background: #eef2ff;
+  border-color: #6366f1;
+}
+
+/* ==============================
+   MICRO ANIMATIONS
+================================*/
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card,
+.item-card {
+  animation: fadeUp 0.22s ease-out both;
+}
+
+/* ==============================
+   MOBILE
+================================*/
 @media (max-width: 640px) {
   .item-card {
     grid-template-columns: 1fr;
   }
 
   .hero h1 {
-    font-size: 36px;
+    font-size: 26px;
   }
-}
-
-/* ------------------------------
-   FEED SPACING FIX (COMPACT)
---------------------------------*/
-
-/* Reduce overall card padding */
-.item-card {
-  padding: 18px;
-}
-
-/* Tighten content spacing */
-.item-content {
-  gap: 4px; /* was 6+ */
-}
-
-/* Reduce spacing between text lines */
-.item-content p {
-  margin: 2px 0;
-}
-
-/* Slightly reduce image height */
-.item-img {
-  height: 120px;
-}
-
-/* Bring contact buttons closer */
-.contact-actions {
-  margin-top: 6px;
-}
-
-/* Make buttons a bit smaller */
-.contact-btn {
-  padding: 6px 14px;
-  font-size: 12.5px;
 }

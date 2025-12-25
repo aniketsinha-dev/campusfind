@@ -1,57 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>CampusFind</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="CampusFind – A secure Lost & Found platform for university campuses."
+  />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <main class="app">
 
-  <div class="app">
-
-    <!-- HERO -->
+    <!-- ================= HERO ================= -->
     <header class="hero">
       <h1>CampusFind</h1>
       <p class="subtitle">Lost & Found, reimagined for your campus</p>
     </header>
 
-    <!-- LOGIN SECTION -->
+    <!-- ================= LOGIN ================= -->
     <section class="card center" id="loginSection">
       <h2>Get Started</h2>
-      <p class="helper-text">Sign in to post or find lost items</p>
-      <button class="btn" onclick="login()">Continue with Google</button>
+      <p class="helper-text">
+        Sign in using your campus Google account to post or recover items.
+      </p>
+
+      <button class="btn" type="button" onclick="login()">
+        Continue with Google
+      </button>
     </section>
 
-    <!-- PROFILE SECTION -->
-    <section class="card" id="profileSection" style="display: none;">
+    <!-- ================= PROFILE ================= -->
+    <section class="card" id="profileSection" style="display:none;">
       <h2>Complete Your Profile</h2>
+      <p class="helper-text">
+        This information will be visible to others for contacting you.
+      </p>
 
       <div class="form-row">
-        <input id="name" placeholder="Full Name">
-        <input id="department" placeholder="Department">
-        <input id="phone" placeholder="Phone Number">
+        <input id="name" placeholder="Full Name" required />
+        <input id="department" placeholder="Department (Optional)" />
+        <input id="phone" placeholder="Phone Number" required />
       </div>
 
-      <button id="saveProfileBtn" class="btn" onclick="saveProfile()">
+      <button
+        id="saveProfileBtn"
+        class="btn"
+        type="button"
+        onclick="saveProfile()"
+      >
         Save Profile
       </button>
     </section>
 
-    <!-- POST ITEM SECTION -->
-    <section class="card" id="postSection" style="display: none;">
+    <!-- ================= POST ITEM ================= -->
+    <section class="card" id="postSection" style="display:none;">
       <h2>Post Lost / Found Item</h2>
 
-      <input id="itemName" placeholder="Item Name">
+      <input
+        id="itemName"
+        placeholder="Item Name (e.g. Black Wallet)"
+        required
+      />
 
       <div class="form-row">
-        <select id="itemType">
+        <select id="itemType" required>
           <option value="">Lost / Found</option>
-          <option>Lost</option>
-          <option>Found</option>
+          <option value="Lost">Lost</option>
+          <option value="Found">Found</option>
         </select>
 
-        <select id="itemCategory">
+        <select id="itemCategory" required>
           <option value="">Category</option>
           <option>ID Card</option>
           <option>Wallet</option>
@@ -65,7 +86,7 @@
           <option>Others</option>
         </select>
 
-        <select id="itemLocation">
+        <select id="itemLocation" required>
           <option value="">Location</option>
           <option>Library</option>
           <option>Canteen</option>
@@ -78,30 +99,57 @@
         </select>
       </div>
 
+      <!-- IMAGE (ALWAYS VISIBLE) -->
       <input
         id="itemImage"
         type="file"
         accept="image/png, image/jpeg, image/jpg"
-      >
+      />
 
-      <button id="submitItemBtn" class="btn" onclick="submitItem()">
-        Submit Item
-      </button>
-    </section>
+      <!-- IMAGE HINT (SOFT TEXT, NO BOLD) -->
+      <p id="imageHint" class="image-hint">
+        Image optional for Lost items
+      </p>
 
-    <!-- FEED SECTION -->
-    <section class="card" id="feedSection" style="display: none;">
-      <h2>Recent Items</h2>
+      <!-- ACTION AREA -->
+      <div class="action-area">
 
-      <div id="itemsContainer">
-        <!-- Items injected by JS -->
+        <button
+          id="submitItemBtn"
+          class="btn"
+          type="button"
+          onclick="submitItem()"
+        >
+          Submit Item
+        </button>
+
+        <!-- SUCCESS STATE -->
+        <div id="successMsg" class="success-box" style="display:none;">
+          <p class="success-text">
+            ✅ Item posted successfully.
+          </p>
+
+          <button
+            id="postAnother"
+            type="button"
+            class="post-another-btn"
+          >
+            Post another item?
+          </button>
+        </div>
+
       </div>
     </section>
 
-  </div>
+    <!-- ================= FEED ================= -->
+    <section class="card" id="feedSection" style="display:none;">
+      <h2>Recent Items</h2>
+      <div id="itemsContainer"></div>
+    </section>
 
-  <!-- MAIN JS -->
+  </main>
+
+  <!-- ================= SCRIPT ================= -->
   <script type="module" src="./app.js"></script>
-
 </body>
 </html>
