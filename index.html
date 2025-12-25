@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CampusFind</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- HERO -->
+    <header class="hero">
+      <h1>CampusFind</h1>
+      <p class="subtitle">Lost & Found, reimagined for your campus</p>
+    </header>
+
+    <!-- LOGIN SECTION -->
+    <section class="card center" id="loginSection">
+      <h2>Get Started</h2>
+      <p class="helper-text">Sign in to post or find lost items</p>
+      <button class="btn" onclick="login()">Continue with Google</button>
+    </section>
+
+    <!-- PROFILE SECTION -->
+    <section class="card" id="profileSection" style="display: none;">
+      <h2>Complete Your Profile</h2>
+
+      <div class="form-row">
+        <input id="name" placeholder="Full Name">
+        <input id="department" placeholder="Department">
+        <input id="phone" placeholder="Phone Number">
+      </div>
+
+      <button id="saveProfileBtn" class="btn" onclick="saveProfile()">
+        Save Profile
+      </button>
+    </section>
+
+    <!-- POST ITEM SECTION -->
+    <section class="card" id="postSection" style="display: none;">
+      <h2>Post Lost / Found Item</h2>
+
+      <input id="itemName" placeholder="Item Name">
+
+      <div class="form-row">
+        <select id="itemType">
+          <option value="">Lost / Found</option>
+          <option>Lost</option>
+          <option>Found</option>
+        </select>
+
+        <select id="itemCategory">
+          <option value="">Category</option>
+          <option>ID Card</option>
+          <option>Wallet</option>
+          <option>Phone</option>
+          <option>Earphones</option>
+          <option>Earpods</option>
+          <option>Books</option>
+          <option>Bag</option>
+          <option>Charger / Cable</option>
+          <option>Keys</option>
+          <option>Others</option>
+        </select>
+
+        <select id="itemLocation">
+          <option value="">Location</option>
+          <option>Library</option>
+          <option>Canteen</option>
+          <option>Hostel</option>
+          <option>Academic Block</option>
+          <option>Playground</option>
+          <option>Parking Area</option>
+          <option>Bus Stop</option>
+          <option>Others</option>
+        </select>
+      </div>
+
+      <input
+        id="itemImage"
+        type="file"
+        accept="image/png, image/jpeg, image/jpg"
+      >
+
+      <button id="submitItemBtn" class="btn" onclick="submitItem()">
+        Submit Item
+      </button>
+    </section>
+
+    <!-- FEED SECTION -->
+    <section class="card" id="feedSection" style="display: none;">
+      <h2>Recent Items</h2>
+
+      <div id="itemsContainer">
+        <!-- Items injected by JS -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MAIN JS -->
+  <script type="module" src="./app.js"></script>
+
+</body>
+</html>
