@@ -9,16 +9,27 @@
     content="CampusFind – A secure Lost & Found platform for university campuses."
   />
   <link rel="stylesheet" href="style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <main class="app">
 
     <!-- ================= HERO ================= -->
-    <header class="hero">
-      <h1>CampusFind</h1>
-      <p class="subtitle">Lost & Found, reimagined for your campus</p>
-    </header>
+    <header class="hero hero-bar">
+  <div class="hero-center">
+    <h1>CampusFind</h1>
+    <p class="subtitle">Lost & Found, reimagined for your campus</p>
+  </div>
+
+  <div class="profile-nav" onclick="goToProfile()" title="Profile">
+    <div class="profile-icon">👤</div>
+    <div class="profile-label">Profile</div>
+  </div>
+</header>
 
     <!-- ================= LOGIN ================= -->
     <section class="card center" id="loginSection">
@@ -32,18 +43,30 @@
       </button>
     </section>
 
-    <!-- ================= PROFILE ================= -->
-    <section class="card" id="profileSection" style="display:none;">
+    <!-- ================= PROFILE SETUP (FIRST TIME ONLY) ================= -->
+    <section
+      class="card center profile-card"
+      id="profileSection"
+      style="display:none;"
+    >
       <h2>Complete Your Profile</h2>
-      <p class="helper-text">
-        This information will be visible to others for contacting you.
-      </p>
 
       <div class="form-row">
         <input id="name" placeholder="Full Name" required />
         <input id="department" placeholder="Department (Optional)" />
         <input id="phone" placeholder="Phone Number" required />
       </div>
+
+      <p class="helper-text subtle">
+        This information helps others contact you if they find your item.
+      </p>
+
+      <p
+        id="profileSuccess"
+        style="display:none; text-align:center; color:#16a34a; font-size:13px; margin:8px 0;"
+      >
+        ✅ Profile saved successfully
+      </p>
 
       <button
         id="saveProfileBtn"
@@ -99,21 +122,17 @@
         </select>
       </div>
 
-      <!-- IMAGE (ALWAYS VISIBLE) -->
       <input
         id="itemImage"
         type="file"
         accept="image/png, image/jpeg, image/jpg"
       />
 
-      <!-- IMAGE HINT (SOFT TEXT, NO BOLD) -->
       <p id="imageHint" class="image-hint">
         Image optional for Lost items
       </p>
 
-      <!-- ACTION AREA -->
       <div class="action-area">
-
         <button
           id="submitItemBtn"
           class="btn"
@@ -123,7 +142,6 @@
           Submit Item
         </button>
 
-        <!-- SUCCESS STATE -->
         <div id="successMsg" class="success-box" style="display:none;">
           <p class="success-text">
             ✅ Item posted successfully.
@@ -137,19 +155,34 @@
             Post another item?
           </button>
         </div>
-
       </div>
     </section>
 
     <!-- ================= FEED ================= -->
     <section class="card" id="feedSection" style="display:none;">
       <h2>Recent Items</h2>
+
+      <p class="helper-text subtle" style="margin-bottom:10px;">
+        Showing the most recent lost & found items on campus
+      </p>
+
+      <div
+        id="emptyFeed"
+        style="display:none; text-align:center; padding:20px 10px;"
+      >
+        <p style="font-size:14px; color:#64748b; margin-bottom:6px;">
+          No items posted yet
+        </p>
+        <p style="font-size:12px; color:#94a3b8;">
+          Be the first one to post a lost or found item
+        </p>
+      </div>
+
       <div id="itemsContainer"></div>
     </section>
 
   </main>
 
-  <!-- ================= SCRIPT ================= -->
   <script type="module" src="./app.js"></script>
 </body>
 </html>

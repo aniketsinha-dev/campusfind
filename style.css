@@ -18,51 +18,51 @@ body {
 .app {
   max-width: 960px;
   margin: 0 auto;
-  padding: 22px 16px 56px;
+  padding: 28px 16px 64px;
 }
 
 /* ==============================
    HERO
 ================================*/
 .hero {
-  text-align: center;
-  margin-bottom: 20px;
+  position: relative;
 }
 
 .hero h1 {
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 800;
-  margin-bottom: 2px;
-  letter-spacing: -0.4px;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  font-size: 13.5px;
+  margin-top: 6px;
+  font-size: 14px;
   color: #64748b;
+  white-space: normal;     /* allow normal wrapping */
+  max-width: none;         /* remove width constraint */
 }
 
 /* ==============================
-   CARD (PREMIUM BORDER)
+   CARD
 ================================*/
 .card {
   position: relative;
   background: #ffffff;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
 }
 
-/* gradient border */
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 1px;
   background: linear-gradient(135deg, #6366f1, #9333ea);
   pointer-events: none;
-
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -71,12 +71,24 @@ body {
 }
 
 /* ==============================
-   CARD HEADINGS
+   TEXT
 ================================*/
 .card h2 {
-  margin: 0 0 10px;
-  font-size: 17px;
+  margin: 0 0 14px;
+  font-size: 20px;
   font-weight: 700;
+}
+
+.helper-text {
+  font-size: 14px;
+  color: #64748b;
+  margin: 6px 0 16px;
+  text-align: center;
+}
+
+.helper-text.subtle {
+  font-size: 13px;
+  color: #94a3b8;
 }
 
 /* ==============================
@@ -85,34 +97,18 @@ body {
 input,
 select {
   width: 100%;
-  padding: 9px 12px;
-  margin-bottom: 8px;
-  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-radius: 12px;
   border: 1px solid #e5e7eb;
-  font-size: 13px;
-  background: #ffffff;
+  font-size: 15px;
 }
 
 input:focus,
 select:focus {
   border-color: #6366f1;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px;
-}
-
-/* ==============================
-   IMAGE HINT (FADED)
-================================*/
-.image-hint {
-  font-size: 12px;
-  color: #94a3b8;
-  margin: -2px 0 8px;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 /* ==============================
@@ -123,60 +119,87 @@ select:focus {
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: #ffffff;
   border: none;
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.action-area {
-  margin-top: 8px;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.35);
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.35);
 }
 
 .btn:disabled {
   background: #c7c9f5;
-  box-shadow: none;
   cursor: not-allowed;
 }
 
 /* ==============================
-   ITEM CARD (SMART LAYOUT)
+   IMAGE HINT
+================================*/
+.image-hint {
+  font-size: 12.5px;
+  color: #94a3b8;
+  opacity: 0.75;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  user-select: none;
+}
+
+/* ==============================
+   ITEM CARD (FEED SAFE)
 ================================*/
 .item-card {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 14px;
+  grid-template-columns: 120px 1fr;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 16px;
   background: #ffffff;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  margin-bottom: 14px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  align-items: center;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* ✅ NO IMAGE = FULL WIDTH CONTENT */
-.item-card:not(:has(img)) {
-  grid-template-columns: 1fr;
+@media (hover: hover) {
+  .item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+  }
 }
 
-.item-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.14);
+/* ==============================
+   IMAGE SLOT
+================================*/
+.item-img-wrapper {
+  width: 120px;
+  height: 100px;
+  flex-shrink: 0;
 }
 
-/* image */
-.item-img {
+.item-img,
+.item-img.placeholder {
   width: 100%;
-  height: 86px;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.item-img {
   object-fit: cover;
-  border-radius: 10px;
+}
+
+.item-img.placeholder {
+  background: #f1f5f9;
+  border: 1.5px dashed #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 26px;
 }
 
 /* ==============================
@@ -185,40 +208,74 @@ select:focus {
 .item-content {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .item-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   margin: 0;
 }
 
 .item-content p {
-  margin: 0;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: #475569;
+  margin: 0;
+}
+
+/* ==============================
+   BADGES
+================================*/
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.badge.lost {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.found {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.resolved {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+/* ==============================
+   TIMELINE TEXT
+================================*/
+.timeline-text {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  margin-bottom: 6px;
 }
 
 /* ==============================
    CONTACT ACTIONS
 ================================*/
 .contact-actions {
-  margin-top: 6px;
+  margin-top: 8px;
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .contact-btn {
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  border: none;
   cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s ease, transform 0.15s ease;
+  text-decoration: none; /* 🔑 underline fix */
+  transition: transform 0.15s ease;
 }
 
 .contact-btn:hover {
@@ -236,67 +293,11 @@ select:focus {
 }
 
 /* ==============================
-   MARK AS RESOLVED (SUBTLE)
+   RESOLVED ITEMS – SOFTER FADE
 ================================*/
-.contact-btn.danger {
-  background: transparent;
-  color: #64748b;
-  border: 1px solid #cbd5e1;
-  font-size: 11.5px;
-  padding: 4px 10px;
-}
-
-.contact-btn.danger:hover {
-  background: #f1f5f9;
-  color: #1e293b;
-  border-color: #94a3b8;
-}
-
-/* ==============================
-   SUCCESS STATE
-================================*/
-.success-box {
-  margin-top: 10px;
-}
-
-.success-text {
-  font-size: 13px;
-  color: #16a34a;
-  margin-bottom: 6px;
-}
-
-.post-another-btn {
-  background: transparent;
-  color: #4f46e5;
-  border: 1px dashed #c7d2fe;
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-
-.post-another-btn:hover {
-  background: #eef2ff;
-  border-color: #6366f1;
-}
-
-/* ==============================
-   MICRO ANIMATIONS
-================================*/
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.card,
-.item-card {
-  animation: fadeUp 0.22s ease-out both;
+.item-card.resolved {
+  opacity: 0.75;              
+  filter: grayscale(15%);   
 }
 
 /* ==============================
@@ -307,7 +308,664 @@ select:focus {
     grid-template-columns: 1fr;
   }
 
+  .item-img-wrapper {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 10px;
+  }
+
+  .item-img,
+  .item-img.placeholder {
+    object-fit: contain;
+  }
+
   .hero h1 {
-    font-size: 26px;
+    font-size: 38px;
+  }
+}
+
+/* ==============================
+   PROFILE DASHBOARD (ISOLATED)
+================================*/
+.profile-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #9333ea);
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.profile-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.profile-actions {
+  margin-top: 10px;
+}
+
+.my-posts {
+  margin-top: 10px;
+}
+
+.my-posts .item-card {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.profile-resolve-btn {
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-empty {
+  text-align: center;
+  padding: 18px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+@media (max-width: 640px) {
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==============================
+   HERO BAR + PROFILE ICON
+================================*/
+
+.hero-left {
+  text-align: left;
+}
+
+.profile-btn {
+  background: #eef2ff;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.profile-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.35);
+}
+
+/* ==============================
+   HERO BAR – CENTER FIX
+================================*/
+.hero-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0 28px;
+}
+
+.hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ==============================
+   PROFILE NAV (FINAL – FIXED)
+================================*/
+.profile-nav {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Icon */
+.profile-nav .profile-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: #4f46e5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Label */
+.profile-nav .profile-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  line-height: 1;
+}
+
+/* Hover polish */
+.profile-nav:hover .profile-label {
+  color: #4f46e5;
+}
+
+/* Mobile: hide text */
+@media (max-width: 640px) {
+  .profile-label {
+    display: none;
+  }
+}
+
+.profile-icon:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.25);
+}
+
+/* Mobile adjustment */
+@media (max-width: 640px) {
+  .profile-icon {
+    right: 6px;
+    top: 6px;
+  }
+}
+
+/* ========= POLISH OVERRIDES ========= */
+
+/* Resolve fade toned down */
+.item-card.resolved {
+  opacity: 0.75;
+  filter: grayscale(15%);
+}
+
+/* Remove underline from action links */
+.contact-btn {
+  text-decoration: none;
+}
+
+/* Better spacing for timeline */
+.timeline-text {
+  margin-bottom: 4px;
+}
+
+/* Softer resolve button */
+.profile-resolve-btn {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+/* Slightly tighter cards in profile */
+.my-posts .item-card {
+  padding: 14px;
+}
+
+/* ==============================
+   PROFILE NAV (HEADER)
+================================*/
+
+.profile-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+  user-select: none;
+}
+
+/* Hide label on mobile */
+@media (max-width: 640px) {
+  .profile-label {
+    display: none;
+  }
+}
+
+/* ==============================
+   PROFILE NAV (TOP RIGHT)
+================================*/
+
+/* Icon */
+.profile-nav .profile-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* Label */
+.profile-nav .profile-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  line-height: 1;
+}
+
+/* Hover effect */
+.profile-nav:hover .profile-label {
+  color: #4f46e5;
+}
+
+/* ==============================
+   BRAND LOGO – CLEAN & SAFE
+================================*/
+
+/* CampusFind logo */
+.hero h1 {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #0f172a;
+}
+
+/* Optional subtle emphasis if you wrap Find in <span> */
+.hero h1 span {
+  color: #4f46e5;
+}
+
+
+.brand-logo {
+  height: 52px;
+  width: auto;
+}
+/* ==============================
+   HERO – STABLE CENTERED HEADER
+================================*/
+.hero-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 0;
+}
+
+.hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 100%;
+}
+
+/* Center brand block */
+.hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Logo size */
+.brand-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+}
+
+/* Subtitle spacing */
+.hero-center .subtitle {
+  margin-top: 6px;
+}
+
+/* ==============================
+   CAMPUSFIND LOGO – FINAL POLISH
+   (CSS ONLY, SAFE)
+================================*/
+
+/* Logo text */
+.hero h1 {
+  font-size: 40px;              /* ↑ bigger for balance */
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  margin-bottom: 6px;
+
+  /* Premium subtle gradient */
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #4f46e5 45%,
+    #7c3aed 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtitle stays clean & readable */
+.hero .subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+/* ==============================
+   HEADER VISUAL BALANCE FIX
+   (NO LAYOUT CHANGE)
+================================*/
+
+/* Slightly reduce logo dominance */
+.hero h1 {
+  font-size: 38px;     /* was 40 */
+  font-weight: 750;   /* softer visual weight */
+}
+
+/* Increase profile icon visual weight */
+.profile-nav .profile-icon {
+  width: 40px;        /* was 36 */
+  height: 40px;
+  font-size: 20px;    /* was 18 */
+}
+
+/* Improve perceived balance */
+.profile-label {
+  font-size: 12px;
+}
+
+/* ==============================
+   FINAL HEADER SIZE TUNING
+   (SAFE + VISIBLE)
+================================*/
+
+/* Increase CampusFind logo size */
+.hero h1 {
+  font-size: 44px;        /* increased from ~38 */
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* Increase subtitle size & presence */
+.hero .subtitle {
+  font-size: 16px;        /* increased from 13–14 */
+  margin-top: 10px;
+  opacity: 0.95;
+}
+
+/* Match profile icon height visually */
+.profile-nav .profile-icon {
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+}
+
+/* ==============================
+   HEADER SPACING FIX – FINAL
+================================*/
+
+/* Reduce excessive top spacing */
+.hero-bar {
+  padding-top: 12px;
+  padding-bottom: 20px;
+}
+
+/* Pull logo block slightly upward */
+.hero-center {
+  margin-top: -8px;
+}
+
+/* ==============================
+   FINAL LOGO SIZE TWEAK
+================================*/
+
+/* Increase CampusFind text size slightly */
+.hero h1 {
+  font-size: 40px;   
+}
+
+/* Slightly scale subtitle to match */
+.hero .subtitle {
+  font-size: 15px;   
+}
+
+/* ==============================
+   FINAL PROFILE ICON ALIGNMENT
+================================*/
+
+/* Slightly lower profile icon to align with logo */
+.profile-nav {
+  top: 50%;
+  transform: translateY(-54%);
+}
+
+/* ==============================
+   LOGO HOVER – SUBTLE & PREMIUM
+================================*/
+
+.hero h1 {
+  transition: 
+    transform 0.25s ease,
+    background-position 0.4s ease;
+  background-size: 200% 200%;
+}
+
+.hero h1:hover {
+  transform: translateY(-1px);
+  background-position: 100% 50%;
+}
+
+/* ==============================
+   SUBTITLE HOVER – SOFT
+================================*/
+
+.subtitle {
+  transition: color 0.25s ease, letter-spacing 0.25s ease;
+}
+
+.hero:hover .subtitle {
+  color: #475569;
+  letter-spacing: 0.45px;
+}
+
+/* ==============================
+   MOBILE HEADER REFINEMENT
+================================*/
+@media (max-width: 640px) {
+
+  .hero-bar {
+    padding: 14px 0 18px;   /* reduce vertical space */
+  }
+
+  .hero h1 {
+    font-size: 28px;        /* visually balanced on mobile */
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .profile-nav {
+    transform: translateY(-46%); /* slightly higher on mobile */
+  }
+}
+
+/* ==============================
+   LOGO – SUBTLE FIRST-LOAD ANIMATION
+================================*/
+
+/* Initial state (before animation) */
+.hero h1 {
+  background-size: 200% 200%;
+  animation: logoReveal 2.2s ease forwards;
+}
+
+/* Gradient reveal animation */
+@keyframes logoReveal {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 100% 50%;
+    transform: translateY(0);
+  }
+}
+/* ==============================
+   HERO – SYNCED LOAD ANIMATION
+================================*/
+
+/* Initial shared state */
+.hero h1,
+.hero .subtitle {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: heroReveal 1.6s ease forwards;
+}
+
+/* Unified animation */
+@keyframes heroReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   LOGO – SUBTLE HOVER FEEDBACK
+================================*/
+
+.hero h1 {
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* Desktop hover only */
+@media (hover: hover) {
+  .hero h1:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+  }
+}
+
+/* CampusFind hover — subtle motion + gradient */
+.hero h1 {
+  transition: 
+    transform 0.25s ease,
+    background-position 0.35s ease;
+}
+
+.hero h1:hover {
+  transform: translateY(-2px); /* same feel as subtitle */
+  background-position: 100% 50%;
+}
+
+
+/* ==============================
+   BRAND POLISH – SAFE OVERRIDE
+   (NO LAYOUT CHANGE)
+================================*/
+
+/* CampusFind logo text */
+.hero h1 {
+  font-size: 38px;              /* slightly bigger, balanced */
+  font-weight: 800;
+  letter-spacing: -0.4px;
+
+  background: linear-gradient(
+    120deg,
+    #0f172a,
+    #4f46e5,
+    #9333ea
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtitle – subtle premium tone */
+.hero .subtitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+
+@media (max-width: 640px) {
+  .hero h1 {
+    transform: none !important;
+  }
+}
+
+/* ==============================
+   BRAND HOVER – SAFE & SUBTLE
+================================*/
+
+.hero h1 {
+  background-size: 200% 200%;
+  transition:
+    transform 0.25s ease,
+    background-position 0.35s ease;
+}
+
+/* Desktop hover only */
+@media (hover: hover) {
+  .hero h1:hover {
+    transform: translateY(-1px);
+    background-position: 100% 50%;
+  }
+}
+
+/* ==============================
+   BRAND HOVER – FORCE MOTION (DESKTOP ONLY)
+   FINAL OVERRIDE
+================================*/
+
+@media (hover: hover) {
+  .hero h1:hover {
+    transform: translateY(-1px) !important;
   }
 }

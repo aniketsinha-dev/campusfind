@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Profile • CampusFind</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Manage your CampusFind profile and posts"
+  />
+
+  <!-- Global styles (shared with index) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Profile-only styles -->
+  <link rel="stylesheet" href="profile.css" />
+</head>
+
+<body>
+
+    <button class="back-btn" onclick="goBack()">‹ Back</button>
+
+  <main class="profile-page">
+
+    <!-- ================= PROFILE HEADER ================= -->
+    <div class="profile-header">
+      <div class="profile-avatar" id="profileAvatar">A</div>
+
+      <div class="profile-meta">
+        <h2 id="profileName">Your Name</h2>
+        <p id="profileEmail">email@domain.com</p>
+      </div>
+    </div>
+
+
+    <!-- ================= EDIT PROFILE ================= -->
+    <section class="card profile-card">
+      <h2>Edit Profile</h2>
+
+      <div class="profile-form">
+        <input id="editName" placeholder="Full Name" />
+        <input id="editDepartment" placeholder="Department" />
+        <input
+          id="editPhone"
+          placeholder="Phone Number"
+          class="full"
+        />
+      </div>
+
+      <button class="btn" id="updateProfileBtn">
+        Update Profile
+      </button>
+    </section>
+
+    <!-- ================= MY POSTS ================= -->
+    <section class="card my-posts">
+        <h3>My Posts</h3>
+
+        <p class="helper-text subtle">
+            Items you have posted. Resolve items from here.
+        </p>
+
+        <!-- EMPTY STATE -->
+        <div id="profileEmpty" class="profile-empty" style="display:none;">
+            You haven’t posted anything yet.
+        </div>
+
+        <!-- POSTS CONTAINER (THIS WAS MISSING / WRONG) -->
+        <div id="myItemsContainer"></div>
+    </section>
+
+  </main>
+
+  <!-- Profile page logic -->
+  <script type="module" src="./profile.js"></script>
+
+</body>
+</html>

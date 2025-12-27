@@ -51,15 +51,12 @@ const SUBMIT_COOLDOWN = 4000;
 // 🔹 CLOUDINARY
 // =======================
 async function uploadToCloudinary(file) {
-  const CLOUD_NAME = "dnm0amwng";
-  const UPLOAD_PRESET = "campusfind_unsigned";
-
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
+  formData.append("upload_preset", "campusfind_unsigned");
 
   const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    "https://api.cloudinary.com/v1_1/dnm0amwng/image/upload",
     { method: "POST", body: formData }
   );
 
@@ -75,19 +72,17 @@ window.login = () => {
 };
 
 // =======================
-// 🔹 AUTH UI
+// 🔹 AUTH UI (MAIN PAGE ONLY)
 // =======================
 onAuthStateChanged(auth, async (user) => {
   const login = document.getElementById("loginSection");
-  const profile = document.getElementById("profileSection");
+  const profileSetup = document.getElementById("profileSection");
   const post = document.getElementById("postSection");
   const feed = document.getElementById("feedSection");
 
   if (!user) {
     login.style.display = "block";
-    profile.style.display = "none";
-    post.style.display = "none";
-    feed.style.display = "none";
+    profileSetup.style.display = post.style.display = feed.style.display = "none";
     return;
   }
 
@@ -96,134 +91,195 @@ onAuthStateChanged(auth, async (user) => {
   const snap = await getDoc(doc(db, "users", user.uid));
 
   if (snap.exists() && snap.data().name && snap.data().phone) {
-    profile.style.display = "none";
-    post.style.display = "block";
-    feed.style.display = "block";
+    profileSetup.style.display = "none";
+    post.style.display = feed.style.display = "block";
     loadItems();
   } else {
-    profile.style.display = "block";
-    post.style.display = "none";
-    feed.style.display = "none";
+    profileSetup.style.display = "block";
+    post.style.display = feed.style.display = "none";
   }
 });
 
 // =======================
-// 🔹 IMAGE HELPER TEXT (VISUAL ONLY)
+// 🔹 IMAGE REQUIREMENT LOGIC (FIXED)
 // =======================
 document.addEventListener("DOMContentLoaded", () => {
   const itemType = document.getElementById("itemType");
   const imageHint = document.getElementById("imageHint");
+  const itemImage = document.getElementById("itemImage");
 
-  if (!itemType || !imageHint) return;
+  if (!itemType || !imageHint || !itemImage) return;
 
-  const updateHint = () => {
-    imageHint.textContent =
-      itemType.value === "Found"
-        ? "Image required for Found items"
-        : "Image optional for Lost items";
+  const updateImageRule = () => {
+    if (itemType.value === "Found") {
+      imageHint.textContent = "Image is required for Found items";
+      imageHint.style.opacity = "1";
+      itemImage.required = true;
+    } else {
+      imageHint.textContent = "Image optional for Lost items";
+      imageHint.style.opacity = "0.7";
+      itemImage.required = false;
+    }
   };
 
-  updateHint();
-  itemType.addEventListener("change", updateHint);
+  updateImageRule();
+  itemType.addEventListener("change", updateImageRule);
 });
 
 // =======================
-// 🔹 SAVE PROFILE
+// 🔹 TIME AGO
 // =======================
-window.saveProfile = async () => {
-  const user = auth.currentUser;
-  if (!user) return;
+function timeAgo(timestamp) {
+  if (!timestamp) return "";
+  const seconds = Math.floor((Date.now() - timestamp.toMillis()) / 1000);
 
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} day${days > 1 ? "s" : ""} ago`;
+  return `${Math.floor(days / 7)} week ago`;
+}
 
-  if (!name || !phone) {
-    alert("Please complete your profile");
+function capitalize(text = "") {
+  if (!text) return "";
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+
+
+// =======================
+// 🔹 LOAD FEED
+// =======================
+async function loadItems() {
+  const container = document.getElementById("itemsContainer");
+  const empty = document.getElementById("emptyFeed");
+
+  container.innerHTML = "";
+  empty.style.display = "none";
+
+  const snap = await getDocs(
+    query(collection(db, "items"), orderBy("createdAt", "desc"))
+  );
+
+  if (snap.empty) {
+    empty.style.display = "block";
     return;
   }
 
-  await setDoc(doc(db, "users", user.uid), {
-    name,
-    department: document.getElementById("department").value.trim(),
-    phone,
-    email: user.email,
-    createdAt: new Date()
-  });
+  snap.forEach(d => {
+    const x = d.data();
+    const isResolved = x.status === "resolved";
 
-  location.reload();
-};
+    const timelineText = isResolved
+      ? `Resolved · ${timeAgo(x.resolvedAt)}`
+      : `Posted · ${timeAgo(x.createdAt)}`;
+
+    container.innerHTML += `
+  <div class="item-card ${isResolved ? "resolved" : ""}">
+
+    <div class="item-img-wrapper">
+      ${
+        x.imageUrl
+          ? `<img src="${x.imageUrl}" class="item-img">`
+          : `<div class="item-img placeholder">📷</div>`
+      }
+    </div>
+
+    <div class="item-content">
+
+      <div class="timeline-text">
+        ${isResolved ? "Resolved" : "Posted"} · ${timeAgo(isResolved ? x.resolvedAt : x.createdAt)}
+      </div>
+
+      <span class="badge ${
+        isResolved ? "resolved" : x.type === "Lost" ? "lost" : "found"
+      }">
+        ${isResolved ? "Resolved" : x.type}
+      </span>
+
+      <h3 class="item-title">${capitalize(x.itemName)}</h3>
+
+      <p>📦 <strong>Category:</strong> ${x.category}</p>
+      <p>📍 <strong>Location:</strong> ${x.location}</p>
+      <p>👤 <strong>Posted by:</strong> ${x.posterName}</p>
+
+      ${
+        !isResolved
+          ? `<div class="contact-actions">
+              ${x.posterPhone ? `<a href="tel:${x.posterPhone}" class="contact-btn call">Call</a>` : ""}
+              ${x.posterEmail ? `<a href="mailto:${x.posterEmail}" class="contact-btn email">Email</a>` : ""}
+            </div>`
+          : ""
+      }
+
+    </div>
+  </div>
+`;
+  });
+}
 
 // =======================
-// 🔹 SUBMIT ITEM (FINAL LOGIC)
+// 🔹 SUBMIT ITEM
 // =======================
 window.submitItem = async () => {
   if (isSubmitting) return;
+  if (Date.now() - lastSubmitTime < SUBMIT_COOLDOWN) return;
 
-  const now = Date.now();
-  if (now - lastSubmitTime < SUBMIT_COOLDOWN) return;
-
+  const itemName = document.getElementById("itemName");
+  const itemType = document.getElementById("itemType");
+  const itemCategory = document.getElementById("itemCategory");
+  const itemLocation = document.getElementById("itemLocation");
+  const itemImage = document.getElementById("itemImage");
+  const imageHint = document.getElementById("imageHint");
   const submitBtn = document.getElementById("submitItemBtn");
+
   submitBtn.disabled = true;
   submitBtn.innerText = "Submitting…";
 
   isSubmitting = true;
-  lastSubmitTime = now;
+  lastSubmitTime = Date.now();
+
+  if (!itemName.value || !itemType.value || !itemCategory.value || !itemLocation.value) {
+    unlockSubmit();
+    return;
+  }
+
+  if (itemType.value === "Found" && !itemImage.files[0]) {
+    imageHint.textContent = "Please add an image to help others identify it";
+    unlockSubmit();
+    return;
+  }
 
   const user = auth.currentUser;
-  if (!user) {
-    unlockSubmit();
-    return;
+  const snap = await getDoc(doc(db, "users", user.uid));
+  const userData = snap.data();
+
+  let imageUrl = "";
+  if (itemImage.files[0]) {
+    imageUrl = await uploadToCloudinary(itemImage.files[0]);
   }
 
-  const itemName = document.getElementById("itemName").value.trim();
-  const itemType = document.getElementById("itemType").value;
-  const category = document.getElementById("itemCategory").value;
-  const location = document.getElementById("itemLocation").value;
-  const imageFile = document.getElementById("itemImage").files[0];
+  await addDoc(collection(db, "items"), {
+    itemName: itemName.value.trim(),
+    type: itemType.value,
+    category: itemCategory.value,
+    location: itemLocation.value,
+    imageUrl,
+    posterName: userData.name,
+    posterDepartment: userData.department,
+    posterPhone: userData.phone,
+    posterEmail: user.email,
+    postedBy: user.uid,
+    status: "active",
+    createdAt: new Date()
+  });
 
-  // Required fields
-  if (!itemName || !itemType || !category || !location) {
-    unlockSubmit();
-    return;
-  }
-
-  // 🔒 HARD RULE: Found item MUST have image
-  if (itemType === "Found" && !imageFile) {
-    alert("Please upload an image for Found items.");
-    unlockSubmit();
-    return;
-  }
-
-  try {
-    const userSnap = await getDoc(doc(db, "users", user.uid));
-    const userData = userSnap.data();
-
-    let imageUrl = "";
-    if (imageFile) imageUrl = await uploadToCloudinary(imageFile);
-
-    await addDoc(collection(db, "items"), {
-      itemName,
-      type: itemType,
-      category,
-      location,
-      imageUrl,
-      posterName: userData.name,
-      posterDepartment: userData.department,
-      posterPhone: userData.phone,
-      posterEmail: user.email,
-      postedBy: user.uid,
-      status: "active",
-      createdAt: new Date()
-    });
-
-    clearForm();
-    loadItems();
-    showSuccessMessage();
-
-  } catch (err) {
-    console.error(err);
-    unlockSubmit();
-  }
+  clearForm();
+  loadItems();
+  showSuccessMessage();
 };
 
 // =======================
@@ -238,85 +294,37 @@ function unlockSubmit() {
 
 function clearForm() {
   ["itemName", "itemType", "itemCategory", "itemLocation", "itemImage"]
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = "";
-    });
+    .forEach(id => (document.getElementById(id).value = ""));
 }
 
 function showSuccessMessage() {
   const msg = document.getElementById("successMsg");
-  const submitBtn = document.getElementById("submitItemBtn");
-  const postAnotherBtn = document.getElementById("postAnother");
+  const btn = document.getElementById("submitItemBtn");
+  const postAnother = document.getElementById("postAnother");
 
   msg.style.display = "block";
-  postAnotherBtn.style.display = "inline-block";
+  btn.innerText = "Submitted";
+  btn.disabled = true;
 
-  submitBtn.disabled = true;
-  submitBtn.innerText = "Submitted";
-
-  postAnotherBtn.onclick = () => {
+  postAnother.onclick = () => {
     msg.style.display = "none";
-    postAnotherBtn.style.display = "none";
-    submitBtn.disabled = false;
-    submitBtn.innerText = "Submit Item";
-    isSubmitting = false;
-    lastSubmitTime = 0;
+    unlockSubmit();
     document.getElementById("itemName").focus();
   };
 }
 
 // =======================
-// 🔹 LOAD FEED
+// 🔹 PROFILE FUNCTIONS (NOT AUTO-RUN)
 // =======================
-async function loadItems() {
-  const container = document.getElementById("itemsContainer");
-  container.innerHTML = "";
+// These will be reused in profile.html later
+export async function loadProfileDashboard() {}
+export async function loadMyPosts() {}
+export async function updateProfile() {}
 
-  const q = query(collection(db, "items"), orderBy("createdAt", "desc"));
-  const snap = await getDocs(q);
-
-  snap.forEach(d => {
-    const x = d.data();
-    if (x.status === "resolved") return;
-
-    const isOwner = auth.currentUser?.uid === x.postedBy;
-
-    container.innerHTML += `
-      <div class="item-card">
-        ${x.imageUrl ? `<img src="${x.imageUrl}" class="item-img">` : ""}
-        <div class="item-content">
-          <h3 class="item-title">${x.itemName}</h3>
-          <p><strong>Status:</strong> ${x.type} • <strong>Category:</strong> ${x.category}</p>
-          <p>📍 <strong>Location:</strong> ${x.location}</p>
-          <p>👤 <strong>Posted by:</strong> ${x.posterName}</p>
-
-          <div class="contact-actions">
-            ${x.posterPhone ? `<a href="tel:${x.posterPhone}" class="contact-btn call">📞 Call</a>` : ""}
-            ${x.posterEmail ? `<a href="mailto:${x.posterEmail}" class="contact-btn email">✉️ Email</a>` : ""}
-          </div>
-
-          ${isOwner ? `
-            <button class="contact-btn danger" onclick="markResolved('${d.id}')">
-              Mark as Resolved
-            </button>
-          ` : ""}
-        </div>
-      </div>
-    `;
-  });
-}
 
 // =======================
-// 🔹 MARK AS RESOLVED
+// 🔹 NAVIGATION
 // =======================
-window.markResolved = async (id) => {
-  if (!confirm("Mark this item as resolved?")) return;
-
-  await updateDoc(doc(db, "items", id), {
-    status: "resolved",
-    resolvedAt: new Date()
-  });
-
-  loadItems();
+window.goToProfile = () => {
+  window.location.href = "profile.html";
 };
