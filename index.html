@@ -18,18 +18,28 @@
 <body>
   <main class="app">
 
-    <!-- ================= HERO ================= -->
+   <!-- ================= HERO ================= -->
     <header class="hero hero-bar">
-  <div class="hero-center">
-    <h1>CampusFind</h1>
-    <p class="subtitle">Lost & Found, reimagined for your campus</p>
-  </div>
+      
+      <!-- Center Brand -->
+      <div class="hero-center">
+        <h1>CampusFind</h1>
+        <p class="subtitle">Lost & Found, reimagined for your campus</p>
+      </div>
 
-  <div class="profile-nav" onclick="goToProfile()" title="Profile">
-    <div class="profile-icon">👤</div>
-    <div class="profile-label">Profile</div>
-  </div>
-</header>
+      <!-- Profile Navigation (hidden by default) -->
+      <div
+        id="profileNav"
+        class="profile-nav"
+        onclick="goToProfile()"
+        title="Profile"
+        style="display: none;"
+      >
+        <div class="profile-icon">👤</div>
+        <div class="profile-label">Profile</div>
+      </div>
+
+    </header>
 
     <!-- ================= LOGIN ================= -->
     <section class="card center" id="loginSection">

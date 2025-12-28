@@ -74,32 +74,40 @@ window.login = () => {
 // =======================
 // 🔹 AUTH UI (MAIN PAGE ONLY)
 // =======================
-onAuthStateChanged(auth, async (user) => {
-  const login = document.getElementById("loginSection");
-  const profileSetup = document.getElementById("profileSection");
-  const post = document.getElementById("postSection");
-  const feed = document.getElementById("feedSection");
+      onAuthStateChanged(auth, async (user) => {
+        const login = document.getElementById("loginSection");
+        const profileSetup = document.getElementById("profileSection");
+        const post = document.getElementById("postSection");
+        const feed = document.getElementById("feedSection");
+        const profileNav = document.getElementById("profileNav"); // 👈 ADD
 
-  if (!user) {
-    login.style.display = "block";
-    profileSetup.style.display = post.style.display = feed.style.display = "none";
-    return;
-  }
+        if (!user) {
+          login.style.display = "block";
+          profileSetup.style.display = post.style.display = feed.style.display = "none";
 
-  login.style.display = "none";
+          // 👇 hide profile icon on login page
+          if (profileNav) profileNav.style.display = "none";
+          return;
+        }
 
-  const snap = await getDoc(doc(db, "users", user.uid));
+        login.style.display = "none";
 
-  if (snap.exists() && snap.data().name && snap.data().phone) {
-    profileSetup.style.display = "none";
-    post.style.display = feed.style.display = "block";
-    loadItems();
-  } else {
-    profileSetup.style.display = "block";
-    post.style.display = feed.style.display = "none";
-  }
-});
+        // 👇 show profile icon only after login
+        if (profileNav) profileNav.style.display = "flex";
 
+        const snap = await getDoc(doc(db, "users", user.uid));
+
+        if (snap.exists() && snap.data().name && snap.data().phone) {
+          profileSetup.style.display = "none";
+          post.style.display = feed.style.display = "block";
+          loadItems();
+        } else {
+          profileSetup.style.display = "block";
+          post.style.display = feed.style.display = "none";
+        }
+      });
+
+      
 // =======================
 // 🔹 IMAGE REQUIREMENT LOGIC (FIXED)
 // =======================

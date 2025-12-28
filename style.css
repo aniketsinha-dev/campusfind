@@ -969,3 +969,53 @@ select:focus {
     transform: translateY(-1px) !important;
   }
 }
+
+/* ==============================
+   MOBILE HEADER – CLEAN & CENTERED
+   (Option A – Recommended)
+================================*/
+@media (max-width: 640px) {
+
+  /* Header container */
+  .hero-bar {
+    padding: 14px 12px 18px;
+  }
+
+  /* Center logo + subtitle properly */
+  .hero-center {
+    margin-top: 0;
+    padding: 0 44px; /* space so profile icon doesn't collide */
+  }
+
+  /* CampusFind logo */
+  .hero h1 {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  /* Subtitle */
+  .hero .subtitle {
+    font-size: 13.5px;
+    margin-top: 4px;
+  }
+
+  /* Profile icon floats top-right */
+  .profile-nav {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    transform: none;
+  }
+
+  /* Profile icon size for touch */
+  .profile-nav .profile-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  /* Hide label on mobile (already correct, reinforce) */
+  .profile-label {
+    display: none;
+  }
+}
