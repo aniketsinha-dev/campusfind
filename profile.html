@@ -17,19 +17,29 @@
   <link rel="stylesheet" href="profile.css" />
 </head>
 
-<body>
+<body class="profile-page">
 
-    <button class="back-btn" onclick="goBack()">‹ Back</button>
+    <button class="back-btn" onclick="window.location.href='index.html'">‹ Back</button>
 
-  <main class="profile-page">
+  <main 
+
 
     <!-- ================= PROFILE HEADER ================= -->
+    
     <div class="profile-header">
       <div class="profile-avatar" id="profileAvatar">A</div>
 
       <div class="profile-meta">
         <h2 id="profileName">Your Name</h2>
         <p id="profileEmail">email@domain.com</p>
+
+        <button
+          class="btn logout-btn"
+          type="button"
+          onclick="logout()">
+          Logout
+        </button>
+
       </div>
     </div>
 
@@ -73,7 +83,8 @@
   </main>
 
   <!-- Profile page logic -->
-  <script type="module" src="./profile.js"></script>
+
+  <script type="module" src="profile.js"></script>
 
 </body>
 </html>

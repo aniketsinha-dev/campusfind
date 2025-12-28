@@ -84,30 +84,51 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // =======================
-// 🔹 LOAD PROFILE
+// 🔹 LOAD PROFILE (SAFE)
 // =======================
 async function loadProfile(user) {
-  profileName.innerText = user.displayName || "User";
-  profileEmail.innerText = user.email || "";
-  profileAvatar.innerText = (user.displayName || "U")[0].toUpperCase();
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
 
-  const snap = await getDoc(doc(db, "users", user.uid));
-  if (!snap.exists()) return;
+    if (!snap.exists()) {
+      console.warn("No profile found");
+      return;
+    }
 
-  const data = snap.data();
-  editName.value = data.name || "";
-  editDepartment.value = data.department || "";
-  editPhone.value = data.phone || "";
+    const data = snap.data();
+
+    // 🔒 SAFELY FETCH DOM ELEMENTS HERE
+    const profileNameEl = document.getElementById("profileName");
+    const profileEmailEl = document.getElementById("profileEmail");
+    const profileAvatarEl = document.getElementById("profileAvatar");
+
+    const editNameEl = document.getElementById("editName");
+    const editDepartmentEl = document.getElementById("editDepartment");
+    const editPhoneEl = document.getElementById("editPhone");
+
+    // ===== PROFILE HEADER =====
+    if (profileNameEl) profileNameEl.textContent = data.name || "Your Name";
+    if (profileEmailEl) profileEmailEl.textContent = user.email || "";
+    if (profileAvatarEl)
+      profileAvatarEl.textContent = (data.name || "U").charAt(0).toUpperCase();
+
+    // ===== EDIT FORM PREFILL =====
+    if (editNameEl) editNameEl.value = data.name || "";
+    if (editDepartmentEl) editDepartmentEl.value = data.department || "";
+    if (editPhoneEl) editPhoneEl.value = data.phone || "";
+
+  } catch (err) {
+    console.error("Failed to load profile:", err);
+  }
 }
 
 // =======================
 // 🔹 UPDATE PROFILE
 // =======================
 function attachProfileUpdateHandler() {
-  updateProfileBtn.addEventListener("click", async () => {
-    const user = auth.currentUser;
-    if (!user) return;
+  if (!updateProfileBtn) return;
 
+  updateProfileBtn.onclick = async () => {
     const name = editName.value.trim();
     const department = editDepartment.value.trim();
     const phone = editPhone.value.trim();
@@ -117,15 +138,27 @@ function attachProfileUpdateHandler() {
       return;
     }
 
-    await updateDoc(doc(db, "users", user.uid), {
-      name,
-      department,
-      phone
-    });
+    const user = auth.currentUser;
+    if (!user) return;
 
-    profileName.innerText = name;
-    alert("Profile updated successfully");
-  });
+    try {
+      await updateDoc(doc(db, "users", user.uid), {
+        name,
+        department,
+        phone,
+        updatedAt: new Date()
+      });
+
+      // Update header instantly (no reload)
+      profileName.textContent = name;
+      profileAvatar.textContent = name.charAt(0).toUpperCase();
+
+      alert("Profile updated");
+    } catch (err) {
+      console.error(err);
+      alert("Update failed");
+    }
+  };
 }
 
 // =======================
@@ -255,3 +288,15 @@ window.goBack = () => {
   window.location.href = "index.html";
 };
 
+// =======================
+// 🔹 LOGOUT (PROFILE PAGE)
+// =======================
+window.logout = async () => {
+  try {
+    await auth.signOut();
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error("Logout failed:", err);
+    alert("Logout failed. Try again.");
+  }
+};

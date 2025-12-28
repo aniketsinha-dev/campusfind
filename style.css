@@ -1058,3 +1058,31 @@ select:focus {
     line-height: 1.5;
   }
 }
+
+/* ==============================
+   PROFILE PAGE ISOLATION
+================================*/
+
+.profile-page .hero,
+.profile-page .hero-bar {
+  display: none;
+}
+
+/* Fix vertical spacing leak */
+.profile-page .app {
+  padding-top: 16px;
+}
+
+/* Logout bar cleanup */
+.profile-page .logout-btn {
+  margin: 12px auto 20px;
+  max-width: 520px;
+}
+
+/* Mobile refinement */
+@media (max-width: 640px) {
+  .profile-page .logout-btn {
+    width: 92%;
+    font-size: 14px;
+  }
+}

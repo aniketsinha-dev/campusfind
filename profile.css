@@ -230,3 +230,22 @@
 .back-btn:active {
   transform: translateX(0);
 }
+
+/* ======================
+   LOGOUT BUTTON
+====================== */
+.logout-btn {
+  margin-top: 12px;
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #fee2e2;
+  color: #991b1b;
+}
