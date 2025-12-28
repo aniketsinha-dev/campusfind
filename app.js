@@ -74,38 +74,43 @@ window.login = () => {
 // =======================
 // 🔹 AUTH UI (MAIN PAGE ONLY)
 // =======================
-      onAuthStateChanged(auth, async (user) => {
-        const login = document.getElementById("loginSection");
-        const profileSetup = document.getElementById("profileSection");
-        const post = document.getElementById("postSection");
-        const feed = document.getElementById("feedSection");
-        const profileNav = document.getElementById("profileNav"); // 👈 ADD
+onAuthStateChanged(auth, async (user) => {
+  const login = document.getElementById("loginSection");
+  const profileSetup = document.getElementById("profileSection");
+  const post = document.getElementById("postSection");
+  const feed = document.getElementById("feedSection");
+  const profileNav = document.getElementById("profileNav");
 
-        if (!user) {
-          login.style.display = "block";
-          profileSetup.style.display = post.style.display = feed.style.display = "none";
+  // 🔴 Not logged in
+  if (!user) {
+    login.style.display = "block";
+    profileSetup.style.display = "none";
+    post.style.display = "none";
+    feed.style.display = "none";
+    if (profileNav) profileNav.style.display = "none";
+    return;
+  }
 
-          // 👇 hide profile icon on login page
-          if (profileNav) profileNav.style.display = "none";
-          return;
-        }
+  login.style.display = "none";
 
-        login.style.display = "none";
+  const snap = await getDoc(doc(db, "users", user.uid));
 
-        // 👇 show profile icon only after login
-        if (profileNav) profileNav.style.display = "flex";
-
-        const snap = await getDoc(doc(db, "users", user.uid));
-
-        if (snap.exists() && snap.data().name && snap.data().phone) {
-          profileSetup.style.display = "none";
-          post.style.display = feed.style.display = "block";
-          loadItems();
-        } else {
-          profileSetup.style.display = "block";
-          post.style.display = feed.style.display = "none";
-        }
-      });
+  // ✅ Profile completed
+  if (snap.exists() && snap.data().name && snap.data().phone) {
+    profileSetup.style.display = "none";
+    post.style.display = "block";
+    feed.style.display = "block";
+    if (profileNav) profileNav.style.display = "flex"; // 👈 ONLY here
+    loadItems();
+  }
+  // 🟡 Profile NOT completed
+  else {
+    profileSetup.style.display = "block";
+    post.style.display = "none";
+    feed.style.display = "none";
+    if (profileNav) profileNav.style.display = "none"; // 👈 hide icon
+  }
+});
 
       
 // =======================
