@@ -330,16 +330,20 @@ window.goToProfile = () => {
 };
 
 // =======================
-// 🔹 SAVE PROFILE (GLOBAL)
+// 🔹 SAVE PROFILE 
 // =======================
-
 window.saveProfile = async function () {
-  const name = document.getElementById("name")?.value.trim();
-  const department = document.getElementById("branch")?.value.trim();
-  const phone = document.getElementById("phone")?.value.trim();
+  const nameInput = document.getElementById("name");
+  const departmentInput = document.getElementById("department"); // ✅ FIXED ID
+  const phoneInput = document.getElementById("phone");
 
-  if (!name || !department || !phone) {
-    alert("Please fill all fields");
+  const name = nameInput.value.trim();
+  const department = departmentInput.value.trim(); // optional
+  const phone = phoneInput.value.trim();
+
+  // ✅ Only required fields
+  if (!name || !phone) {
+    alert("Please fill all required fields");
     return;
   }
 
@@ -350,15 +354,19 @@ window.saveProfile = async function () {
   }
 
   try {
-    await setDoc(doc(db, "users", user.uid), {
-      name,
-      department,
-      phone,
-      email: user.email,
-      updatedAt: new Date()
-    });
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
+        name,
+        department, // can be empty
+        phone,
+        email: user.email,
+        updatedAt: new Date()
+      },
+      { merge: true }
+    );
 
-    // Redirect to feed
+    // ✅ Redirect back to feed
     window.location.href = "index.html";
   } catch (err) {
     console.error("Save profile failed:", err);
