@@ -1019,3 +1019,42 @@ select:focus {
     display: none;
   }
 }
+
+@media (max-width: 640px) {
+  .hero-bar {
+    padding: 12px 0 14px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 12.5px;
+    margin-top: 4px;
+  }
+}
+
+/* ==============================
+   LOGIN PAGE – MOBILE POLISH
+================================*/
+
+.login-card {
+  margin-top: 24px;
+}
+
+@media (max-width: 640px) {
+  .login-card {
+    padding: 20px 16px;
+  }
+
+  .login-card h2 {
+    font-size: 22px;
+  }
+
+  .login-card .helper-text {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
