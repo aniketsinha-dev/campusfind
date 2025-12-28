@@ -328,3 +328,40 @@ export async function updateProfile() {}
 window.goToProfile = () => {
   window.location.href = "profile.html";
 };
+
+// =======================
+// 🔹 SAVE PROFILE (GLOBAL)
+// =======================
+
+window.saveProfile = async function () {
+  const name = document.getElementById("name")?.value.trim();
+  const department = document.getElementById("branch")?.value.trim();
+  const phone = document.getElementById("phone")?.value.trim();
+
+  if (!name || !department || !phone) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) {
+    alert("User not logged in");
+    return;
+  }
+
+  try {
+    await setDoc(doc(db, "users", user.uid), {
+      name,
+      department,
+      phone,
+      email: user.email,
+      updatedAt: new Date()
+    });
+
+    // Redirect to feed
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error("Save profile failed:", err);
+    alert("Failed to save profile. Check console.");
+  }
+};
